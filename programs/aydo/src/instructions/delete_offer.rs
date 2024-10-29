@@ -7,16 +7,14 @@ use crate::constants::*;
 
 #[derive(Accounts)]
 #[instruction(id : u64)]
-pub struct CreateOffer<'info> {
+pub struct DeleteOffer<'info> {
     #[account(
-        init, 
+        mut,
         seeds = [OFFER_SEED.as_bytes(), id.to_le_bytes().as_ref()],
         bump,
-        payer = owner, 
-        space = 8 + Offer::INIT_SPACE,
     )]
     pub offer: Account<'info, Offer>,
-        
+
     #[account(
         mut,
         seeds = [BUYER_SEED.as_bytes(), owner.key().as_ref()],
@@ -24,29 +22,20 @@ pub struct CreateOffer<'info> {
     )]
     pub buyer: Account<'info, Buyer>,
 
-    #[account(mut)]
     pub owner: Signer<'info>,
-
-    pub system_program: Program<'info, System>,
 }
 
-pub fn create_offer(
-    ctx: Context<CreateOffer>,
-    id: u64, 
-    location: String, 
-    price: u64
+pub fn delete_offer(
+    ctx: Context<DeleteOffer>,
+    _id: u64, 
 ) -> Result<()> {
     require!(ctx.accounts.buyer.owner == *ctx.accounts.owner.key, ErrorCode::BuyerNotRegistered);
 
-    let buyer = &mut ctx.accounts.buyer;
+    let _buyer = &mut ctx.accounts.buyer;
     let offer = &mut ctx.accounts.offer;
 
-    offer.buyer = buyer.key();
-    offer.is_active = true;
-    offer.id = id;
-    offer.location = location;
-    offer.price = price;
+    offer.is_active = false;
 
-    msg!("Offer created...");
+    msg!("Offer deleted...");
     Ok(())
 }

@@ -1,11 +1,13 @@
-use crate::state::Buyer;
 use anchor_lang::prelude::*;
+
+use crate::state::Buyer;
+use crate::constants::*;
 
 #[derive(Accounts)]
 pub struct CreateBuyer<'info> {
     #[account(
         init, 
-        seeds = [b"buyer", owner.key().as_ref()],
+        seeds = [BUYER_SEED.as_bytes(), owner.key().as_ref()],
         bump,
         payer = owner, 
         space = 8 + Buyer::INIT_SPACE,

@@ -1,11 +1,13 @@
-use crate::state::Streamer;
 use anchor_lang::prelude::*;
+
+use crate::state::Streamer;
+use crate::constants::*;
 
 #[derive(Accounts)]
 pub struct CreateStreamer<'info> {
     #[account(
         init, 
-        seeds = [b"streamer", owner.key().as_ref()],
+        seeds = [STREAMER_SEED.as_bytes(), owner.key().as_ref()],
         bump,
         payer = owner, 
         space = 8 + Streamer::INIT_SPACE,
