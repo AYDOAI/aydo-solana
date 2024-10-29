@@ -10,7 +10,6 @@ pub mod state;
 
 declare_id!("11111111111111111111111111111111");
 
-
 #[program]
 mod aydo {
     use super::*;
@@ -39,7 +38,11 @@ mod aydo {
         create_deal::create_deal(ctx, id, offer_id, encrypted_data)
     }
 
-    pub fn accept_deal(ctx: Context<AcceptDeal>, id: u64, offer_id: u64) -> Result<()> {
-        accept_deal::accept_deal(ctx, id, offer_id)
+    pub fn accept_deal(ctx: Context<AcceptDeal>, id: u64) -> Result<()> {
+        accept_deal::accept_deal(ctx, id)
+    }
+
+    pub fn accept_stream_data(ctx: Context<AcceptStreamData>, deal_id: u64, count: u32) -> Result<()> {
+        accept_stream_data::accept_stream_data(ctx, deal_id, count)
     }
 }

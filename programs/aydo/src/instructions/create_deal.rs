@@ -42,18 +42,18 @@ pub struct CreateDeal<'info> {
 pub fn create_deal(
     ctx: Context<CreateDeal>,
     id: u64, 
-    offer_id: u64, 
+    _offer_id: u64, 
     encrypted_data: String
 ) -> Result<()> {
     require!(ctx.accounts.streamer.owner == *ctx.accounts.owner.key, ErrorCode::StreamerNotRegistered);
     require!(ctx.accounts.offer.is_active == true, ErrorCode::OfferIsNotActive);
 
     let streamer = &mut ctx.accounts.streamer;
-    let _offer = &mut ctx.accounts.offer;
+    let offer = &mut ctx.accounts.offer;
     let deal = &mut ctx.accounts.deal;
 
     deal.id = id;
-    deal.offer_id = offer_id;
+    deal.offer = offer.key();
     deal.streamer = streamer.key();
     deal.is_accepted = false;
     deal.is_completed = false;

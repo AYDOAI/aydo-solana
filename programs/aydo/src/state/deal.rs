@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 #[derive(InitSpace)]
 pub struct Deal {
     pub id: u64,
-    pub offer_id: u64,
+    pub offer: Pubkey,
     pub streamer: Pubkey,
     pub is_accepted: bool,
     pub is_completed: bool,

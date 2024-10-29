@@ -22,10 +22,16 @@ pub enum ErrorCode {
 
     #[msg("Deal is accepted.")]
     DealIsAccepted,
+    
+    #[msg("Deal is not accepted.")]
+    DealIsNotAccepted,
 
     #[msg("Deal is completed.")]
     DealIsCompleted,
 
     #[msg("Request forbidden.")]
     RequestForbidden,
+
+    #[msg("Not enough funds.")]
+    FundsNotEnough,
 }
