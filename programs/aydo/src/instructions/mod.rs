@@ -4,6 +4,9 @@ pub use create_buyer::*;
 pub mod create_deal;
 pub use create_deal::*;
 
+pub mod accept_deal;
+pub use accept_deal::*;
+
 pub mod create_offer;
 pub use create_offer::*;
 

@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-use crate::state::Streamer;
+use crate::state::Buyer;
 use crate::state::Offer;
 use crate::state::Deal;
 
@@ -9,13 +9,11 @@ use crate::constants::*;
 
 #[derive(Accounts)]
 #[instruction(id: u64, offer_id: u64)]
-pub struct CreateDeal<'info> {
+pub struct AcceptDeal<'info> {
     #[account(
-        init, 
+        mut, 
         seeds = [DEAL_SEED.as_bytes(), id.to_le_bytes().as_ref()],
         bump,
-        payer = owner, 
-        space = 8 + Deal::INIT_SPACE,
     )]
     pub deal: Account<'info, Deal>,
 
@@ -28,10 +26,10 @@ pub struct CreateDeal<'info> {
 
     #[account(
         mut,
-        seeds = [STREAMER_SEED.as_bytes(), owner.key().as_ref()],
+        seeds = [BUYER_SEED.as_bytes(), owner.key().as_ref()],
         bump,
     )]
-    pub streamer: Account<'info, Streamer>,
+    pub buyer: Account<'info, Buyer>,
 
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -39,26 +37,25 @@ pub struct CreateDeal<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn create_deal(
-    ctx: Context<CreateDeal>,
-    id: u64, 
-    offer_id: u64, 
-    encrypted_data: String
+pub fn accept_deal(
+    ctx: Context<AcceptDeal>,
+    _id: u64, 
+    _offer_id: u64
 ) -> Result<()> {
-    require!(ctx.accounts.streamer.owner == *ctx.accounts.owner.key, ErrorCode::StreamerNotRegistered);
-    require!(ctx.accounts.offer.is_active == true, ErrorCode::OfferIsNotActive);
+    require!(ctx.accounts.buyer.owner == *ctx.accounts.owner.key, ErrorCode::RequestForbidden);
+    require!(ctx.accounts.offer.buyer == ctx.accounts.buyer.key(), ErrorCode::RequestForbidden);
+    require!(ctx.accounts.offer.id == ctx.accounts.deal.offer_id, ErrorCode::RequestForbidden);
 
-    let streamer = &mut ctx.accounts.streamer;
+    require!(ctx.accounts.offer.is_active == true, ErrorCode::OfferIsNotActive);
+    require!(ctx.accounts.deal.is_accepted == false, ErrorCode::DealIsAccepted);
+    require!(ctx.accounts.deal.is_completed == false, ErrorCode::DealIsCompleted);
+
+    let _buyer = &mut ctx.accounts.buyer;
     let _offer = &mut ctx.accounts.offer;
     let deal = &mut ctx.accounts.deal;
 
-    deal.id = id;
-    deal.offer_id = offer_id;
-    deal.streamer = streamer.key();
-    deal.is_accepted = false;
-    deal.is_completed = false;
-    deal.encrypted_data = encrypted_data;
+    deal.is_accepted = true;
 
-    msg!("Deal created...");
+    msg!("Deal accepted...");
     Ok(())
 }

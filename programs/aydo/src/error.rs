@@ -17,6 +17,15 @@ pub enum ErrorCode {
     #[msg("Offer already exists.")]
     OfferAlreadyExists,
 
+    #[msg("Offer is not active.")]
+    OfferIsNotActive,
+
+    #[msg("Deal is accepted.")]
+    DealIsAccepted,
+
+    #[msg("Deal is completed.")]
+    DealIsCompleted,
+
     #[msg("Request forbidden.")]
     RequestForbidden,
 }

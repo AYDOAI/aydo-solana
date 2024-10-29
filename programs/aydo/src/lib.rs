@@ -38,4 +38,8 @@ mod aydo {
     pub fn create_deal(ctx: Context<CreateDeal>, id: u64, offer_id: u64, encrypted_data: String) -> Result<()> {
         create_deal::create_deal(ctx, id, offer_id, encrypted_data)
     }
+
+    pub fn accept_deal(ctx: Context<AcceptDeal>, id: u64, offer_id: u64) -> Result<()> {
+        accept_deal::accept_deal(ctx, id, offer_id)
+    }
 }
