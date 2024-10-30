@@ -27,16 +27,15 @@ pub fn withdraw_reward(
 ) -> Result<()> {
     require!(ctx.accounts.streamer.owner == *ctx.accounts.owner.key, ErrorCode::RequestForbidden);
 
-    let amount_lamports = amount * LAMPORTS_PER_SOL;
     let owner = &mut ctx.accounts.owner;
     let streamer = &mut ctx.accounts.streamer;
     let balance = streamer.to_account_info().lamports();
-    require!(amount_lamports <= balance, ErrorCode::FundsNotEnough);
+    require!(amount <= balance, ErrorCode::FundsNotEnough);
 
-    **streamer.to_account_info().try_borrow_mut_lamports()? -= amount_lamports;
-    **owner.to_account_info().try_borrow_mut_lamports()? += amount_lamports;
+    **streamer.to_account_info().try_borrow_mut_lamports()? -= amount;
+    **owner.to_account_info().try_borrow_mut_lamports()? += amount;
 
-    streamer.balance = streamer.balance.checked_sub(amount_lamports).ok_or(ErrorCode::BalanceOverflow)?;
+    streamer.balance = streamer.balance.checked_sub(amount).ok_or(ErrorCode::BalanceOverflow)?;
 
     msg!("Withdraw is completed...");
 
