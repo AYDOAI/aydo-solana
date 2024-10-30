@@ -48,8 +48,8 @@ pub fn create_deal(
     require!(ctx.accounts.streamer.owner == *ctx.accounts.owner.key, ErrorCode::StreamerNotRegistered);
     require!(ctx.accounts.offer.is_active == true, ErrorCode::OfferIsNotActive);
 
-    let streamer = &mut ctx.accounts.streamer;
-    let offer = &mut ctx.accounts.offer;
+    let streamer = &ctx.accounts.streamer;
+    let offer = &ctx.accounts.offer;
     let deal = &mut ctx.accounts.deal;
 
     deal.id = id;

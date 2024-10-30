@@ -31,7 +31,7 @@ pub fn delete_offer(
 ) -> Result<()> {
     require!(ctx.accounts.buyer.owner == *ctx.accounts.owner.key, ErrorCode::BuyerNotRegistered);
 
-    let _buyer = &mut ctx.accounts.buyer;
+    let _buyer = &ctx.accounts.buyer;
     let offer = &mut ctx.accounts.offer;
 
     offer.is_active = false;

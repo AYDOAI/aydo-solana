@@ -19,14 +19,14 @@ pub fn deposit_funds(
 ) -> Result<()> {
     require!(ctx.accounts.buyer.owner == *ctx.accounts.owner.key, ErrorCode::BuyerNotRegistered);
     
-    let amount2 = amount * LAMPORTS_PER_SOL;
+    let amount_lamports = amount * LAMPORTS_PER_SOL;
     let buyer = &mut ctx.accounts.buyer;
     let owner = &ctx.accounts.owner;
 
     let ix = anchor_lang::solana_program::system_instruction::transfer(
         &owner.key(),
         &buyer.key(),
-        amount2,
+        amount_lamports,
     );
 
     anchor_lang::solana_program::program::invoke(
@@ -37,7 +37,7 @@ pub fn deposit_funds(
         ],
     )?;
 
-    buyer.balance = buyer.balance.checked_add(amount2).ok_or(ErrorCode::BalanceOverflow)?;
+    buyer.balance = buyer.balance.checked_add(amount_lamports).ok_or(ErrorCode::BalanceOverflow)?;
 
     msg!("The deposit has been topped up...");
     Ok(())

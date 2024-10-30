@@ -38,7 +38,7 @@ pub fn create_offer(
 ) -> Result<()> {
     require!(ctx.accounts.buyer.owner == *ctx.accounts.owner.key, ErrorCode::BuyerNotRegistered);
 
-    let buyer = &mut ctx.accounts.buyer;
+    let buyer = &ctx.accounts.buyer;
     let offer = &mut ctx.accounts.offer;
 
     offer.buyer = buyer.key();

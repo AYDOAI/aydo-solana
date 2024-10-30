@@ -45,4 +45,8 @@ mod aydo {
     pub fn accept_stream_data(ctx: Context<AcceptStreamData>, deal_id: u64, count: u32) -> Result<()> {
         accept_stream_data::accept_stream_data(ctx, deal_id, count)
     }
+
+    pub fn withdraw_reward(ctx: Context<WithdrawReward>, amount: u64) -> Result<()> {
+        withdraw_reward::withdraw_reward(ctx, amount)
+    }
 }

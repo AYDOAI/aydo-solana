@@ -53,8 +53,8 @@ pub fn accept_stream_data(
     require!(ctx.accounts.deal.is_accepted == true, ErrorCode::DealIsNotAccepted);
     require!(ctx.accounts.deal.is_completed == false, ErrorCode::DealIsCompleted);
 
-    let _deal = &mut ctx.accounts.deal;
-    let offer = &mut ctx.accounts.offer;
+    let _deal = &ctx.accounts.deal;
+    let offer = &ctx.accounts.offer;
     let buyer = &mut ctx.accounts.buyer;
     let streamer = &mut ctx.accounts.streamer;
 

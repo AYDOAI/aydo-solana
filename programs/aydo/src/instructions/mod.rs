@@ -21,3 +21,6 @@ pub use create_streamer::*;
 
 pub mod deposit_funds;
 pub use deposit_funds::*;
+
+pub mod withdraw_reward;
+pub use withdraw_reward::*;
