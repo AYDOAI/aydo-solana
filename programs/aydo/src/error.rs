@@ -34,4 +34,10 @@ pub enum ErrorCode {
 
     #[msg("Not enough funds.")]
     FundsNotEnough,
+
+    #[msg("Overflow occurred.")]
+    Overflow,
+
+    #[msg("Unauthorized action.")]
+    Unauthorized,
 }
