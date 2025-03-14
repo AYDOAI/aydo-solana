@@ -40,4 +40,10 @@ pub enum ErrorCode {
 
     #[msg("Unauthorized action.")]
     Unauthorized,
+
+    #[msg("Invalid token account.")]
+    InvalidTokenAccount,
+
+    #[msg("Invalid token mint.")]
+    InvalidTokenMint,
 }
